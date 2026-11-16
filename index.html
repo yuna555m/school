@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>أثر يمتد… من المدرسة إلى المنزل</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#fdf6fa;--card:#fff;--tx:#3b2748;--mu:#7a6586;--p:#e8a5c4;--m:#8e5ea2;--g:#d4af6a;--bd:#f0dcea;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1f1626;--card:#2b2036;--tx:#f5eaf8;--mu:#bba6c6;--bd:#43344f}}
+:root[data-theme="dark"]{--bg:#1f1626;--card:#2b2036;--tx:#f5eaf8;--mu:#bba6c6;--bd:#43344f}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:Tajawal,Cairo,sans-serif;line-height:1.8}
+header{background:linear-gradient(135deg,var(--m),var(--p));color:#fff;text-align:center;padding:36px 16px 28px}
+header h1{margin:6px 0;font-size:1.7rem}header p{margin:4px auto;max-width:640px}
+.gold{color:#ffe9a8;font-weight:700}
+nav{display:flex;gap:6px;overflow-x:auto;padding:10px;background:var(--card);border-bottom:1px solid var(--bd);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+nav a{white-space:nowrap;padding:6px 14px;border-radius:20px;color:var(--m);text-decoration:none;font-weight:700;border:1px solid var(--bd)}
+nav a.on{background:var(--m);color:#fff}
+main{max-width:760px;margin:auto;padding:16px}
+section{display:none;animation:f .4s}section.on{display:block}@keyframes f{from{opacity:0;transform:translateY(8px)}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:18px;margin:12px 0}
+.btns{display:grid;gap:10px;margin:14px 0}
+button,.btn{font:inherit;font-weight:700;border:0;border-radius:12px;padding:12px 18px;background:var(--m);color:#fff;cursor:pointer}
+button:disabled{opacity:.6;cursor:not-allowed}
+button.alt{background:var(--g);color:#3b2748}button.ghost{background:transparent;color:var(--m);border:1px solid var(--m)}
+button.del{background:#fde8e8;color:#8a1f1f;border:1px solid #f5c2c2;padding:8px 14px;font-size:.9rem}
+.act-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+label{display:block;font-weight:700;margin:12px 0 4px}
+input,select,textarea{width:100%;font:inherit;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--tx)}
+.stars{font-size:2rem;color:var(--g);cursor:pointer;user-select:none}
+.ok{background:#e9f7ee;color:#1d5c34;padding:12px;border-radius:10px;margin-top:10px}.err{background:#fde8e8;color:#8a1f1f;padding:12px;border-radius:10px;margin-top:10px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat{text-align:center}.stat b{font-size:1.8rem;color:var(--m);display:block}
+.bar{background:var(--bd);border-radius:8px;overflow:hidden;margin:4px 0}.bar i{display:block;background:linear-gradient(90deg,var(--p),var(--m));color:#fff;padding:0 8px;font-style:normal;font-size:.85rem;white-space:nowrap}
+.q{margin:10px 0}.q label{font-weight:500}footer{text-align:center;padding:26px 16px;color:var(--mu);font-weight:700}
+.opt{display:block;padding:8px;border:1px solid var(--bd);border-radius:10px;margin:4px 0;font-weight:500;cursor:pointer}
+.media-preview{max-width:100%;border-radius:10px;margin-top:8px}
+</style></head><body>
+<header><div style="font-size:2.4rem">🌸📚</div><h1>أثر يمتد… من المدرسة إلى المنزل</h1>
+<p class="gold">شراكتك تصنع فرقًا في رحلة تعلم ابنتك</p>
+<p>ضمن مشروع «من تشخيص الفجوة إلى التميز» لتحسين نواتج تعلم اللغة العربية</p></header>
+<nav id="nav"></nav>
+<main>
+<section id="home"><div class="card"><h2>مرحبًا بكِ ولي الأمر الكريم 💜</h2>
+<p>يهدف المشروع إلى تشخيص فجوات التعلم في اللغة العربية ومعالجتها بشراكة بين المدرسة والأسرة. نقدّر وقتكم، وأثركم يظهر في كل خطوة تدعمون بها ابنتكم.</p></div>
+<div class="btns"><button onclick="go('share')">شاركينا أثر التحسين</button><button class="alt" onclick="go('challenge')">تحدي لغتي مع أسرتي</button><button class="ghost" onclick="go('gallery')">شاهدوا حصاد التميز</button></div></section>
+
+<section id="share"><div class="card"><h2>توثيق مشاركة ولي الأمر</h2>
+<label>اسم ولي الأمر</label><input id="f_name">
+<label>صلة القرابة بالطالبة</label><select id="f_rel"><option>أم</option><option>أب</option><option>أخ/أخت</option><option>جدة/جد</option><option>أخرى</option></select>
+<label>اسم الطالبة</label><input id="f_st">
+<label>الصف الدراسي</label><input id="f_gr">
+<label>المهارة التي لاحظتِ تحسنها</label><select id="f_sk"><option>الفهم القرائي</option><option>الطلاقة القرائية</option><option>الإملاء</option><option>التعبير الكتابي</option><option>القواعد النحوية</option><option>الثقة في استخدام اللغة العربية</option></select>
+<label>ما التغيير الذي لاحظته على ابنتك بعد تنفيذ المشروع؟</label><textarea id="f_ch" rows="3"></textarea>
+<label>كيف شاركتِ في دعم تعلم ابنتك في المنزل؟</label><textarea id="f_su" rows="3"></textarea>
+<label>ما النشاط الذي كان له أثر واضح على ابنتك؟</label><textarea id="f_ac" rows="2"></textarea>
+<label>تقييم أثر المشروع</label><div class="stars" id="stars"></div>
+<label>صورة توثيقية (اختياري)</label><input type="file" id="f_img" accept="image/*">
+<label class="opt"><input type="checkbox" id="f_ok" style="width:auto"> أوافق على استخدام مشاركتي شاهدًا تربويًا بعد إخفاء البيانات الشخصية.</label>
+<div class="btns"><button id="send">إرسال المشاركة</button></div><div id="msg"></div></div></section>
+
+<section id="challenge"><div class="card"><h2>تحدي لغتي مع أسرتي 👩‍👧</h2>
+<p>اقرآ الفقرة معًا ثم أجيبا:</p>
+<div class="card" style="background:var(--bg)"><b>القراءة المشتركة:</b><br>في صباح هادئ جلست سارة مع أمها تقرآن كتابًا عن أهمية الوقت. قالت الأم: «الوقت كالسيف إن لم تقطعه قطعك». ابتسمت سارة وقررت أن تنظّم وقتها، فخصصت نصف ساعة كل مساء للقراءة، ومع الأيام صارت أكثر ثقة وأجمل تعبيرًا.</div>
+<div id="quiz"></div><div class="btns"><button id="chk">اعرفي النتيجة</button></div><div id="res"></div></div></section>
+
+<section id="voice"><div class="card"><h2>بصوت الأسرة نروي قصة النجاح 🎙️</h2>
+<label>اكتبي رسالتك (بديل نصي)</label><textarea id="v_txt" rows="4"></textarea>
+<label>أو سجّلي رسالة صوتية قصيرة</label><div class="btns"><button class="ghost" id="rec">بدء التسجيل</button></div><audio id="pl" controls style="display:none;width:100%"></audio>
+<label class="opt"><input type="checkbox" id="v_ok" style="width:auto"> أوافق على استخدام رسالتي بعد إخفاء بياناتي.</label>
+<div class="btns"><button id="vsend">إرسال الرسالة</button></div><div id="vmsg"></div></div></section>
+
+<section id="gallery"><div class="card"><h2>شواهد الشراكة والأثر</h2><p style="color:var(--mu)">تظهر هنا فقط المشاركات التي وافق أصحابها وراجعتها الإدارة، دون أسماء.</p><div id="pub">جارٍ التحميل…</div></div></section>
+
+<section id="admin"><div class="card"><h2>لوحة إدارة المشروع 🔒</h2>
+<div id="adm_login">
+  <p>أدخلي كلمة مرور الإدارة لعرض المشاركات واعتماد الشواهد:</p>
+  <input type="password" id="adm_pass" placeholder="كلمة المرور">
+  <div class="btns"><button id="adm_btn">دخول الإدارة</button></div>
+  <div id="adm_err"></div>
+</div>
+<div id="adm" style="display:none"></div></div></section>
+</main>
+<footer>«حين تتكامل جهود المدرسة والأسرة، تتحول الفجوات التعليمية إلى فرص للتميز، ويصبح النجاح رحلة مشتركة نصنعها معًا».</footer>
+
+<script>
+const SUPABASE_URL = 'https://mdelgbvqirvrmxvgvdqm.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_Bp6Y2cR32CW0j0LNUm3IjQ_HPXiceEg';
+const ADMIN_PASS   = '2026';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const tabs=[['home','الرئيسية'],['share','شاركينا'],['challenge','التحدي'],['voice','صوت الأسرة'],['gallery','الشواهد'],['admin','الإدارة']];
+$('nav').innerHTML=tabs.map(t=>`<a href="#${t[0]}" data-t="${t[0]}">${t[1]}</a>`).join('');
+function go(t){location.hash=t}
+function show(){
+  const h=(location.hash||'#home').slice(1),t=tabs.some(x=>x[0]==h)?h:'home';
+  document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id==t));
+  document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('on',a.dataset.t==t));
+  if(t=='gallery')loadPub();
+}
+addEventListener('hashchange',show);show();
+
+let rating=0;$('stars').innerHTML=[1,2,3,4,5].map(i=>`<span data-i="${i}">☆</span>`).join(' ');
+$('stars').onclick=e=>{const i=+e.target.dataset.i;if(!i)return;rating=i;[...$('stars').children].forEach((s,k)=>s.textContent=k<i?'★':'☆')};
+
+async function uploadFile(file, prefix) {
+  const ext = (file.name && file.name.split('.').pop()) || 'webm';
+  const fileName = `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2,7)}.${ext}`;
+  const { error } = await sb.storage.from('media').upload(fileName, file);
+  if (error) throw error;
+  const { data } = sb.storage.from('media').getPublicUrl(fileName);
+  return data.publicUrl;
+}
+
+$('send').onclick=async()=>{
+  const m=$('msg'), btn=$('send'); m.className=''; m.textContent='';
+  if(!$('f_name').value.trim()||!$('f_st').value.trim()||!$('f_ch').value.trim()||!rating){
+    m.className='err'; m.textContent='فضلًا أكملي الاسم واسم الطالبة والتغيير الملاحظ والتقييم.'; return;
+  }
+  btn.disabled=true; btn.textContent='جارٍ الإرسال...';
+  try {
+    let imageUrl = null;
+    const imgFile = $('f_img').files[0];
+    if (imgFile) imageUrl = await uploadFile(imgFile, 'img');
+
+    const { error } = await sb.from('submissions').insert([{
+      type: 'form',
+      name: $('f_name').value.trim(),
+      rel: $('f_rel').value,
+      student: $('f_st').value.trim(),
+      grade: $('f_gr').value.trim(),
+      skill: $('f_sk').value,
+      change_text: $('f_ch').value.trim(),
+      support: $('f_su').value.trim(),
+      activity: $('f_ac').value.trim(),
+      rating: rating,
+      consent: $('f_ok').checked,
+      image_url: imageUrl,
+      approved: false
+    }]);
+    if (error) throw error;
+    m.className='ok'; m.textContent='تم حفظ مشاركتك بنجاح في قاعدة البيانات. شكرًا لشراكتك 💜';
+    $('f_name').value=''; $('f_st').value=''; $('f_gr').value=''; $('f_ch').value=''; $('f_su').value=''; $('f_ac').value=''; $('f_img').value='';
+  } catch(e) {
+    m.className='err'; m.textContent='تعذّر الحفظ، تأكدي من الاتصال بالإنترنت أو إعدادات الرابط.';
+  } finally {
+    btn.disabled=false; btn.textContent='إرسال المشاركة';
+  }
+};
+
+const Q=[['ماذا فعلت سارة لتنظيم وقتها؟',['خصصت نصف ساعة للقراءة','ألغت القراءة','سهرت طويلًا'],0],['ماذا تعني عبارة «الوقت كالسيف»؟',['الوقت لا ينتظر ويجب استثماره','الوقت حاد الشكل','السيف يشبه الساعة'],0],['ما النتيجة التي حصلت عليها سارة؟',['أصبحت أكثر ثقة وأجمل تعبيرًا','تأخرت دراسيًا','فقدت كتابها'],0],['لغويًا: ما نوع «سارة» في الجملة «ابتسمت سارة»؟',['فاعل','مفعول به','مبتدأ'],0]];
+$('quiz').innerHTML=Q.map((q,i)=>`<div class="q"><b>${i+1}. ${q[0]}</b>${q[1].map((o,k)=>`<label class="opt"><input type="radio" name="q${i}" value="${k}" style="width:auto"> ${o}</label>`).join('')}</div>`).join('');
+$('chk').onclick=()=>{let s=0,a=0;Q.forEach((q,i)=>{const v=document.querySelector(`input[name=q${i}]:checked`);if(v){a++;if(+v.value==q[2])s++}});const r=$('res');if(a<Q.length){r.className='err';r.textContent='أجيبي عن جميع الأسئلة أولًا.';return}
+r.className='ok';r.textContent=`نتيجتكما: ${s} من ${Q.length}. `+(s==Q.length?'ممتاز! أسرة متميزة 🌟':'محاولة جميلة، شراكتكما تصنع فرقًا، أعيدا المحاولة 💜')};
+
+let mr=null,chunks=[],blob=null;
+$('rec').onclick=async()=>{
+  if(mr&&mr.state=='recording'){mr.stop();return}
+  try{
+    const st=await navigator.mediaDevices.getUserMedia({audio:true});
+    mr=new MediaRecorder(st);chunks=[];
+    mr.ondataavailable=e=>chunks.push(e.data);
+    mr.onstop=()=>{blob=new Blob(chunks,{type:mr.mimeType||'audio/webm'});$('pl').src=URL.createObjectURL(blob);$('pl').style.display='block';$('rec').textContent='إعادة التسجيل';st.getTracks().forEach(t=>t.stop())};
+    mr.start();$('rec').textContent='إيقاف التسجيل';
+  }catch(e){$('vmsg').className='err';$('vmsg').textContent='تعذّر الوصول للميكروفون، يمكنك كتابة رسالة نصية.'}
+};
+
+$('vsend').onclick=async()=>{
+  const m=$('vmsg'), btn=$('vsend'); m.className=''; m.textContent='';
+  const t=$('v_txt').value.trim();
+  if(!t&&!blob){m.className='err';m.textContent='اكتبي رسالة أو سجّلي صوتًا.';return}
+  btn.disabled=true; btn.textContent='جارٍ الإرسال...';
+  try {
+    let audioUrl = null;
+    if (blob) audioUrl = await uploadFile(blob, 'voice');
+    const { error } = await sb.from('submissions').insert([{
+      type: audioUrl ? 'voice' : 'text',
+      change_text: t,
+      audio_url: audioUrl,
+      consent: $('v_ok').checked,
+      approved: false
+    }]);
+    if (error) throw error;
+    m.className='ok'; m.textContent='وصلت رسالتك بنجاح، شكرًا لك 💜';
+    $('v_txt').value=''; blob=null; $('pl').style.display='none';
+  } catch(e) {
+    m.className='err'; m.textContent='تعذّر الحفظ، لم تُسجَّل الرسالة.';
+  } finally {
+    btn.disabled=false; btn.textContent='إرسال الرسالة';
+  }
+};
+
+async function loadPub(){
+  const el=$('pub');
+  const { data, error } = await sb.from('submissions')
+    .select('change_text, skill, rating, image_url, audio_url')
+    .eq('approved', true)
+    .order('created_at', { ascending: false });
+  if (error) { el.textContent='تعذّر تحميل الشواهد.'; return; }
+  el.innerHTML = data.length ? data.map(x=>`
+    <div class="card">
+      ${x.change_text ? `<p>«${esc(x.change_text)}»</p>` : ''}
+      ${x.image_url ? `<img src="${esc(x.image_url)}" class="media-preview" alt="شاهد تربوي">` : ''}
+      ${x.audio_url ? `<audio src="${esc(x.audio_url)}" controls style="width:100%;margin-top:8px"></audio>` : ''}
+      <small style="color:var(--mu);display:block;margin-top:6px">${esc(x.skill||'')} ${x.rating?'· '+'★'.repeat(x.rating):''} — ولي أمر</small>
+    </div>`).join('') : 'لا توجد شواهد معتمدة بعد.';
+}
+
+$('adm_btn').onclick=()=>{
+  if($('adm_pass').value === ADMIN_PASS){
+    $('adm_login').style.display='none';
+    $('adm').style.display='block';
+    loadAdmin();
+  } else {
+    $('adm_err').className='err';
+    $('adm_err').textContent='كلمة المرور غير صحيحة.';
+  }
+};
+
+async function loadAdmin(){
+  const el=$('adm'); el.innerHTML='جارٍ تحميل البيانات...';
+  const { data: all, error } = await sb.from('submissions').select('*').order('created_at', { ascending: false });
+  if (error) { el.textContent='تعذّر قراءة البيانات.'; return; }
+  render(el, all);
+}
+
+function render(el, all){
+  const f=all.filter(i=>i.type=='form');
+  const parents=new Set(f.map(i=>i.name).filter(Boolean)).size || f.length;
+  const stu=new Set(f.map(i=>i.student).filter(Boolean)).size;
+  const sk={}; f.forEach(i=>{if(i.skill)sk[i.skill]=(sk[i.skill]||0)+1});
+  const avg=f.length?(f.reduce((a,i)=>a+(i.rating||0),0)/f.length).toFixed(1):'—';
+  const voice=all.filter(i=>i.type=='voice').length;
+  const txt=all.filter(i=>i.type=='text').length;
+  const mx=Math.max(1,...Object.values(sk));
+
+  el.innerHTML=`
+    <div class="grid">
+      <div class="card stat"><b>${parents}</b>أولياء أمور مشاركون</div>
+      <div class="card stat"><b>${stu}</b>طالبات مستفيدات</div>
+      <div class="card stat"><b>${avg}</b>متوسط التقييم</div>
+      <div class="card stat"><b>${txt}/${voice}</b>نصية / صوتية</div>
+    </div>
+    <p style="color:var(--mu)">نسبة المشاركة تحتاج عدد الأسر الكلي: <input id="tot" type="number" placeholder="عدد الأسر" style="width:120px;display:inline"> <b id="pct"></b></p>
+    <h3>المهارات الأكثر تحسنًا</h3>
+    ${Object.entries(sk).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div>${esc(k)} (${v})<div class="bar"><i style="width:${v/mx*100}%">${v}</i></div></div>`).join('')||'لا بيانات بعد.'}
+    <h3>المشاركات (${all.length})</h3>
+    ${all.map(i=>`
+      <div class="card" id="card_${i.id}">
+        <small>${new Date(i.created_at).toLocaleString('ar-SA')} · ${esc(i.name||'بدون اسم')} ${esc(i.student?'· '+i.student:'')} ${esc(i.grade?'('+i.grade+')':'')}</small>
+        <p>${esc(i.change_text||'')}</p>
+        ${i.image_url ? `<img src="${esc(i.image_url)}" class="media-preview">` : ''}
+        ${i.audio_url ? `<audio src="${esc(i.audio_url)}" controls style="width:100%;margin:8px 0"></audio>` : ''}
+        <div class="act-row">
+          ${i.approved ? `<span class="ok" style="display:inline-block;padding:6px 12px;margin:0">معتمد في الشواهد ✓</span>` : 
+            (i.consent ? `<button class="ghost" data-pub="${i.id}">اعتماد للنشر دون أسماء</button>` : '<small style="color:var(--mu)">لم يوافق ولي الأمر على النشر</small>')}
+          <button class="del" data-del="${i.id}" data-img="${esc(i.image_url||'')}" data-aud="${esc(i.audio_url||'')}">حذف المشاركة 🗑️</button>
+        </div>
+      </div>`).join('')}
+    <div class="btns"><button id="csv">تصدير CSV</button><button class="ghost" onclick="print()">طباعة / حفظ PDF</button></div>`;
+
+  $('tot').oninput=e=>{const t=+e.target.value;$('pct').textContent=t?Math.round(parents/t*100)+'%':''};
+  
+  $('csv').onclick=()=>{
+    const rows=[['التاريخ','النوع','ولي الأمر','الصلة','الطالبة','الصف','المهارة','التغيير','الدعم','النشاط','التقييم','موافقة','رابط الصورة','رابط الصوت']]
+      .concat(all.map(i=>[i.created_at,i.type,i.name,i.rel,i.student,i.grade,i.skill,i.change_text,i.support,i.activity,i.rating,i.consent?'نعم':'لا',i.image_url||'',i.audio_url||'']));
+    const c='\ufeff'+rows.map(r=>r.map(x=>'"'+String(x??'').replace(/"/g,'""')+'"').join(',')).join('\n');
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([c],{type:'text/csv;charset=utf-8'}));
+    a.download='athar.csv'; a.click();
+  };
+
+  el.querySelectorAll('[data-pub]').forEach(b=>b.onclick=async()=>{
+    b.disabled=true; b.textContent='جارٍ الاعتماد...';
+    const { error } = await sb.from('submissions').update({ approved: true }).eq('id', b.dataset.pub);
+    if (!error) { b.textContent='تم الاعتماد ✓'; } else { b.disabled=false; b.textContent='خطأ، حاولي مجددًا'; }
+  });
+
+  el.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{
+    if(!confirm('هل أنتِ متأكدة من حذف هذه المشاركة نهائيًا؟')) return;
+    b.disabled=true; b.textContent='جارٍ الحذف...';
+    const id = b.dataset.del;
+    const filesToRemove = [b.dataset.img, b.dataset.aud]
+      .filter(Boolean)
+      .map(url => url.split('/media/').pop());
+    if(filesToRemove.length) await sb.storage.from('media').remove(filesToRemove);
+    const { error } = await sb.from('submissions').delete().eq('id', id);
+    if (!error) { loadAdmin(); } else { b.disabled=false; b.textContent='تعذّر الحذف'; }
+  });
+}
+</script></body></html>
